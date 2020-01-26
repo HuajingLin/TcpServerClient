@@ -5,9 +5,9 @@ The client, after establishing a connection with the server, sends over the name
 <br><br>
 The size limitation of the memory cache is 64MB. If the file size is more than 64MB on disk, you do not cache it in memory. And if the cache size will exceed 64MB after putting the file into memory, you have to purge enough cached content to make sure the entire cache size is restricted to 64MB anytime.
 <br><br>
-Server usage: tcp_server port_to_listen_on file_directory
-         $> ./tcp_server 9089 /home/dist/homework1
-<br><br>
-Client usage: tcp_client server_host server_port file_name directory
+Server usage: tcp_server port_to_listen_on file_directory<br>
+\t$> ./tcp_server 9089 /home/dist/homework1
+<br>
+Client usage: tcp_client server_host server_port file_name directory<br>
          $> ./tcp_client 127.0.0.1 9089 homework1.pdf .
 ## 
