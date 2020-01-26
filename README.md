@@ -9,12 +9,12 @@ Server usage:<br>
 tcp_server port_to_listen_on file_directory<br>
 $> ./tcp_server 9089 /home/dist/homework1<br>
 Client 127.0.0.1 is requesting 1.pdf<br>
-Cache miss. File 1.pdf sent to the client
+Cache miss. File 1.pdf sent to the client<br>
 Added file 1.pdf to cache.(used: 4154k)
 <br><br>
 Client usage:<br>
 tcp_client server_host server_port file_name directory<br>
-$> ./tcp_client 127.0.0.1 9089 homework1.pdf .
+$> ./tcp_client 127.0.0.1 9089 homework1.pdf .<br>
 1.pdf saved
 <br><br>
 ## 
