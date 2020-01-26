@@ -17,4 +17,10 @@ tcp_client server_host server_port file_name directory<br>
 $> ./tcp_client 127.0.0.1 9089 homework1.pdf .<br>
 1.pdf saved
 <br><br>
-## 
+## An overview which include the structure of your program
+sdfsdf . sfsfsdf
+## The details of cache implementation
+## Different test cases you use to test your program:
+### requesting an invalid file
+sdfs
+### requesting from a dead server
