@@ -94,7 +94,7 @@ void func(int sockfd, char* filename, char* dir)
     }
     if(nTotal > 0){
         printf("\n");
-        printf("%s saved\n",filename);
+        printf("%s saved. (%d)\n",filename, nTotal);
     }
     if (fp)
         fclose(fp);

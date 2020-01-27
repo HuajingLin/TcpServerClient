@@ -70,7 +70,8 @@ int search_file_in_cache(unsigned char* pCache, char* filename, unsigned char** 
     while (pFile != 0) {
         if (strncmp(pFile->filename, filename, FILE_NAME_LEN) == 0) {
             bCacheHit = 1;
-            *pData = pFile + sizeof(struct FILE_NODE);
+            *pData = (unsigned char *)pFile;
+            *pData += sizeof(struct FILE_NODE);
             break;
         }
         pFile = pFile->next;
@@ -123,7 +124,7 @@ int addFileToCache(FILE* pFile, int filesize, unsigned char* pCache, int* pUsedC
 
         //move data
         unsigned char* pSour = (unsigned char*)pSecondNode;
-        unsigned char* pDest = pFileNodeStart;//pSour - nMoveSize;
+        unsigned char* pDest = (unsigned char*)pFileNodeStart;
         while (n < nMoveSize) {
             n += 1;
             *pDest = *pSour;
@@ -134,11 +135,11 @@ int addFileToCache(FILE* pFile, int filesize, unsigned char* pCache, int* pUsedC
         //adjust pointor
         pFileNode = pFileNodeStart;
         while(pFileNode != NULL){
-            if(pFileNode->next > 0)
+            if(pFileNode->next != NULL)
             {
                 pNode = (unsigned char*)pFileNode->next;
                 pNode -= sizeFiles;
-                pFileNode->next = pNode;
+                pFileNode->next = (struct FILE_NODE *)pNode;
                 printf("=== adjust file pointor.\n");
             }
             pFileNode = pFileNode->next;
@@ -147,13 +148,13 @@ int addFileToCache(FILE* pFile, int filesize, unsigned char* pCache, int* pUsedC
     }
     
     //skip to end of file list
-    pFileNode = pFileNodeStart;
+    pFileNode = pFileNodeStart;//nMoveSize
     while(pFileNode != NULL && pFileNode->filesize > 0)
     {
         printf("skip file\n");
         if(pFileNode->next == NULL){
             pNode = (unsigned char*)pFileNode;
-            pFileNode->next = pNode + pFileNode->filesize + sizeNode;
+            pFileNode->next = (struct FILE_NODE*)(pNode + pFileNode->filesize + sizeNode);
             pFileNode = pFileNode->next;
             break;
         }
@@ -164,7 +165,8 @@ int addFileToCache(FILE* pFile, int filesize, unsigned char* pCache, int* pUsedC
     strncpy(pFileNode->filename, filename, FILE_NAME_LEN);
     pFileNode->filesize = filesize;
     pFileNode->next = NULL;
-    pFileData = pFileNode + sizeNode;
+    pNode = (unsigned char*)pFileNode;
+    pFileData = pNode + sizeNode;
     
     fseek(pFile, 0, SEEK_SET);
     if(filesize != fread(pFileData, 1, filesize, pFile))
@@ -243,7 +245,7 @@ void connection_handler(void *ptr)
         pFile = fopen(pathname, "rb");
         if (pFile) {
             printf("file %s found.\n", buff);
-            filesize = readAndSendFile(pFile, param->sockfd, buff);
+            filesize = readAndSendFile(pFile, param->sockfd, (unsigned char *)buff);
             if(filesize == 0)
                 printf("read file err.\n");
             else
@@ -321,7 +323,7 @@ int main(int argc, char *argv[])
     }
     
     //try to open the Specified directory
-    dir = opendir(dirName);
+    dir = (struct DIR *)opendir(dirName);
     if (dir == NULL)  // opendir returns NULL if couldn't open directory
     {
         printf("Could not open directory: %s\n", dirName);
@@ -368,6 +370,6 @@ int main(int argc, char *argv[])
     // After chatting close the socket 
     close(sockfd);
     free(pCache);
-    closedir(dir);
+    closedir((DIR *)dir);
     printf("server exit\n");
 } 
