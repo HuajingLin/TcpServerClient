@@ -67,10 +67,11 @@ If the file does not exist at all, it will return an error message. It prints a 
 
 # 2. The details of cache implementation
 The cache in memory looks like this:
------------------------------------------------------
-| file | file || file | file ||          | file | file  
-| head | data || head | data ||  ... ... | head | data  
-------------------------------------------------------
+
+//------------------------------------------------------<br>
+| file | file || file | file ||          | file | file  <br>
+| head | data || head | data ||  ... ... | head | data  <br>
+//------------------------------------------------------<br>
 
 ## (1)each file has a head and data area.
 ### a. The head of file is a data struct:
