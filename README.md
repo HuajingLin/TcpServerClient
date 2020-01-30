@@ -69,7 +69,7 @@ If the file does not exist at all, it will return an error message. It prints a 
 The cache in memory looks like this:
 
 //------------------------------------------------------<br>
-| file_ | file_ || file_ | file_ ||  ... ... | file | file  <br>
+| file__ | file__ || file__ | file__ ||  ... ... | file__ | file__  <br>
 | head | data || head | data ||  ... ... | head | data  <br>
 //------------------------------------------------------<br>
 
